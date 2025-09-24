@@ -20,4 +20,4 @@ class Settings(BaseSettings):
     jwt:JWTSettings = JWTSettings()
     
     
-settigns = Settings()
+settings = Settings()

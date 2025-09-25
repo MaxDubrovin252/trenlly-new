@@ -1,8 +1,8 @@
-"""first migration
+"""add a profiles
 
-Revision ID: 0fd58bdec83b
+Revision ID: 3fc530717560
 Revises:
-Create Date: 2025-09-24 19:15:03.084619
+Create Date: 2025-09-25 22:42:26.436672
 
 """
 
@@ -13,7 +13,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = "0fd58bdec83b"
+revision: str = "3fc530717560"
 down_revision: Union[str, Sequence[str], None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None

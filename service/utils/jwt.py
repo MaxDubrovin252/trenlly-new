@@ -15,9 +15,10 @@ def create_access_token(username:str,user_id:int,exp_time=1)->str:
     
 def validate_token(token:str):
     try:
-        decode = jwt.decode(token,settings.jwt.secret_key,algorithms=[settings.jwt.algorithm])
-        return decode
-    except jwt.InvalidTokenError:
+        decoded = jwt.decode(token,settings.jwt.secret_key, algorithms=settings.jwt.algorithm)
+        return decoded 
+    except jwt.InvalidTokenError as e:
+        print(f"errrrrrrrrrrror:{e}")
         return False
     except jwt.ExpiredSignatureError:
         return None

@@ -1,4 +1,5 @@
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
 from core.models import Tren
 
 
@@ -8,4 +9,8 @@ async def create_tren(session:AsyncSession,group:str,exercise:str,cardio:float,u
     await session.commit()
     return new_tren
 
-async def get_all_trens(session:AsyncSession,user_id:int)
+async def get_all_trens(session:AsyncSession,user_id:int):
+    stmt = select(Tren).where(Tren.user_id==user_id)
+    res = await session.execute(statement=stmt)
+    trens = res.scalars().all()
+    return list(trens)

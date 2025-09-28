@@ -26,3 +26,12 @@ async def create_tren(
     )
     return {"new tren created":new_tren}
     
+    
+@router.get("/all")
+async def get_all(
+    session:AsyncSession = Depends(db_helper.session_dependency),
+    correct:str = Depends(user_verify_by_token)
+):
+    user_id = correct["user_id"]
+    trens = await crud.get_all_trens(session=session, user_id=user_id)
+    return trens

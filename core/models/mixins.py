@@ -20,3 +20,7 @@ class UserRelalationMixin:
     def user(cls)->Mapped["User"]:
         return relationship(back_populates=cls._user_back_populates_)
     
+    
+    
+    
+    

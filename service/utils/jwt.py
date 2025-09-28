@@ -7,7 +7,7 @@ def create_access_token(username:str,user_id:int,exp_time=1)->str:
         "sub":username,
         "iat":datetime.utcnow(),
         "exp":datetime.utcnow()+timedelta(hours=exp_time),
-        "user_id":user_id
+        "user_id":user_id,
     }
     
     token = jwt.encode(payload, settings.jwt.secret_key,settings.jwt.algorithm)

@@ -2,6 +2,7 @@ from fastapi import APIRouter,Depends,Form, HTTPException
 from api.user import user_verify_by_token
 from sqlalchemy.ext.asyncio import AsyncSession
 from core.models import db_helper
+
 from .schemas import Profile
 from . import crud
 
@@ -29,10 +30,13 @@ async def create_profile(profile:Profile=Form() ,correct:str=Depends(user_verify
 
 
 @router.get("/")
-async def get_profile(correct:str=Depends(user_verify_by_token),session:AsyncSession=Depends(db_helper.session_dependency)):
+async def statistic(correct:str=Depends(user_verify_by_token),session:AsyncSession=Depends(db_helper.session_dependency)):
+    user_id = correct["user_id"]
+    profile_of_user = await crud.get_user(session=session, id=user_id)
+    return profile_of_user
     
-    users = await crud.get_all(session=session)
-    return users
+    
+    
 
 
 

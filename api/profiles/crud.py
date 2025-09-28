@@ -6,19 +6,24 @@ from sqlalchemy.exc import IntegrityError
 
 async def create_profiles(session:AsyncSession,
                         user_id:int,
+                        
                         height:float,
                         weight:float,
                         first_name:str|None=None,
                         last_name:str|None=None):
-    
-        new_profile = Profile(user_id=user_id,first_name=first_name,last_name=last_name,weight=weight,height=height)
-        try:
-            session.add(new_profile)
+        stmt = select(Profile).where(Profile.user_id==user_id)
+        profile_exists = await session.scalar(statement=stmt)
+        if profile_exists:
             await session.commit()
-            return new_profile
-        except IntegrityError:
-            await session.rollback()
             return None
+        
+        new_profile = Profile(user_id=user_id,first_name=first_name,last_name=last_name,weight=weight,height=height)
+        
+        session.add(new_profile)
+        await session.commit()
+        return new_profile
+
+
         
         
         
@@ -27,3 +32,9 @@ async def get_all(session:AsyncSession)->list[Profile]:
     res = await session.execute(statement=stmt)
     users = res.scalars().all()
     return list(users)
+
+async def get_user(session:AsyncSession,id:int):
+    stmt = select(Profile).where(Profile.user_id==id)
+    res = await session.execute(stmt)
+    profile= res.scalar_one_or_none()
+    return profile

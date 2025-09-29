@@ -1,6 +1,7 @@
 from service.utils import hash_password, verify_password, create_access_token
 from repository import user
 from sqlalchemy.ext.asyncio import AsyncSession
+from fastapi import HTTPException
 
 async def create_user(session:AsyncSession, username:str, password:str):
     hash_pass = hash_password(password=password)
@@ -9,8 +10,9 @@ async def create_user(session:AsyncSession, username:str, password:str):
 
 async def verify_user(session:AsyncSession,username:str,password:str):
     user_in = await user.get_user_by_username(session=session,username=username)
-    
-    
+    if user_in is None:
+        raise HTTPException(status_code=401,detail=f"user:{username} not found")
+
     is_valid = verify_password(password=password,hash_pass=user_in.password)
     
     if is_valid is False:

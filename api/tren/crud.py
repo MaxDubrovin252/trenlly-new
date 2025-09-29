@@ -14,3 +14,6 @@ async def get_all_trens(session:AsyncSession,user_id:int):
     res = await session.execute(statement=stmt)
     trens = res.scalars().all()
     return list(trens)
+
+
+    

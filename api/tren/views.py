@@ -3,7 +3,7 @@ from api.user.dependencies import user_verify_by_token
 from .schemas import Tren
 from sqlalchemy.ext.asyncio import AsyncSession
 from core.models import db_helper
-from . import crud
+from . import crud, service
 
 
 
@@ -34,4 +34,14 @@ async def get_all(
 ):
     user_id = correct["user_id"]
     trens = await crud.get_all_trens(session=session, user_id=user_id)
-    return trens
+    return {"all your trens":trens}
+
+@router.get("/statistic/cardio")
+async def get_cardio(
+    session:AsyncSession = Depends(db_helper.session_dependency),
+    correct:str = Depends(user_verify_by_token),
+):
+    user_id = correct["user_id"]
+    trens = await crud.get_all_trens(session=session, user_id=user_id)
+    message = service.average_cardio(trens=trens)
+    return message    

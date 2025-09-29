@@ -21,7 +21,7 @@ async def create_tren(
         session=session,
         group=tren.group,
         exercise=tren.exercise,
-        cardio=tren.cardio,
+        cardio=tren.cardio_hours,
         user_id=id,
     )
     return {"new tren created":new_tren}
@@ -44,4 +44,25 @@ async def get_cardio(
     user_id = correct["user_id"]
     trens = await crud.get_all_trens(session=session, user_id=user_id)
     message = service.average_cardio(trens=trens)
-    return message    
+    return message 
+
+@router.get("/statistic/main-group")
+async def get_main_group(
+    session:AsyncSession = Depends(db_helper.session_dependency),
+    correct:str = Depends(user_verify_by_token),
+):
+    user_id = correct["user_id"]
+    trens = await crud.get_all_trens(session=session, user_id=user_id)
+    message = service.groups(trens=trens)
+    return message 
+
+
+@router.get("/statistic/main-exercise")
+async def get_main_group(
+    session:AsyncSession = Depends(db_helper.session_dependency),
+    correct:str = Depends(user_verify_by_token),
+):
+    user_id = correct["user_id"]
+    trens = await crud.get_all_trens(session=session, user_id=user_id)
+    message = service.exercise_freq(trens=trens)
+    return message 

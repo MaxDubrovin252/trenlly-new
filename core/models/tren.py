@@ -12,8 +12,12 @@ class Tren(UserRelalationMixin,Base):
     
     body_group:Mapped[str]
     exercise:Mapped[str]
-    cardio:Mapped[float]
+    cardio_hours:Mapped[float]
     
     
     def __str__(self):
-        return f"tren:{self.group}"
+        return f"{self.body_group}"
+    
+    def __str__(self):
+        return f"{self.exercise}"
+    

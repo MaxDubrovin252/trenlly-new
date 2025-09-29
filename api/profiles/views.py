@@ -4,7 +4,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from core.models import db_helper
 
 from .schemas import Profile
-from . import crud
+from . import crud,service
 
 
 router = APIRouter(prefix="/profiles", tags=["profile"])
@@ -29,11 +29,18 @@ async def create_profile(profile:Profile=Form() ,correct:str=Depends(user_verify
     return {"new profile create":new_profile}
 
 
-@router.get("/")
-async def statistic(correct:str=Depends(user_verify_by_token),session:AsyncSession=Depends(db_helper.session_dependency)):
+@router.get("/statistik/overweight")
+async def statistic_overweight(correct:str=Depends(user_verify_by_token),session:AsyncSession=Depends(db_helper.session_dependency)):
     user_id = correct["user_id"]
     profile_of_user = await crud.get_user(session=session, id=user_id)
-    return profile_of_user
+    res = service.overweight(
+        weight=profile_of_user.weight,
+        height=profile_of_user.height,
+    )
+    return {
+        "overweight":res,
+    }
+    
     
     
     

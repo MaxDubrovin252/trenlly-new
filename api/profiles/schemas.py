@@ -5,5 +5,5 @@ class Profile(BaseModel):
     last_name:str | None = None
     weight:float
     height:float
-    age:int
+    
     

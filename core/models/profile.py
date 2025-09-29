@@ -1,12 +1,10 @@
 from .base import Base
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from typing import TYPE_CHECKING
+
 from sqlalchemy import ForeignKey
 from .mixins import UserRelalationMixin
 
 
-if TYPE_CHECKING:
-    from .user import User
 
 
 class Profile(UserRelalationMixin,Base):
@@ -18,7 +16,7 @@ class Profile(UserRelalationMixin,Base):
     last_name:Mapped[str|None] = None
     weight:Mapped[float] 
     height:Mapped[float] 
-    age:Mapped[int]
+    
     
     
     def __str__(self):

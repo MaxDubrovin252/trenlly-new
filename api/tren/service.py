@@ -9,7 +9,8 @@ def average_cardio(trens:list)->str:
     return {"message":"you cardio is normal"}
 
 def groups(trens:list):
-    freq = Counter(trens)
+    groups = [tren.body_group for tren in trens]
+    freq = Counter(groups)
     
     most_common = freq.most_common(1)
     
@@ -20,9 +21,12 @@ def groups(trens:list):
     
     
 def exercise_freq(trens:list):
-    freq = Counter(trens)
+    exc_list = [tren.exercise for tren in trens]
+    freq = Counter(exc_list)
     
     most_common = freq.most_common(1)
+    
+    
     
     if most_common:
         value,count = most_common[0]

@@ -18,6 +18,5 @@ class Tren(UserRelalationMixin,Base):
     def __str__(self):
         return f"{self.body_group}"
     
-    def __str__(self):
-        return f"{self.exercise}"
+    
     
